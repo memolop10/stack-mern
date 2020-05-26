@@ -14,6 +14,9 @@ userCtrl.createUser = async(req, res) => {
     res.json('user created') 
 }
 
-userCtrl.deleteUser = (req, res) => res.json({message: 'user borrado'})
+userCtrl.deleteUser = async(req, res) => {
+    await User.findByIdAndDelete(req.params.id)
+    res.json('user deleted')
+} 
 
 module.exports = userCtrl;
