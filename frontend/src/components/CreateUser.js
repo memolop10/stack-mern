@@ -9,8 +9,12 @@ export default class CreateUser extends Component {
     }
 
     async componentDidMount(){
-       const res = await axios.get('http://localhost:4000/api/users');
-       this.setState({users: res.data})
+       this.getUsers();
+    }
+
+    getUsers = async () => {
+        const res = await axios.get('http://localhost:4000/api/users');
+         this.setState({users: res.data})
     }
 
     onChangeUsername = (e) => {
@@ -21,11 +25,18 @@ export default class CreateUser extends Component {
 
     onSubmit = async e =>{
         e.preventDefault();
-        const res = await axios.post('http://localhost:4000/api/users', {
+        await axios.post('http://localhost:4000/api/users', {
             username: this.state.username
         })
-        console.log(res)
+        this.setState({username:''});
+        this.getUsers();
         
+    }
+
+    deleteUser = async id => {
+        console.log(id)
+        await axios.delete('http://localhost:4000/api/users/' + id)
+        this.getUsers();
     }
 
     render() {
@@ -36,20 +47,28 @@ export default class CreateUser extends Component {
                         <h3>create new user</h3>
                         <form onSubmit={this.onSubmit}>
                             <div className="form-group">
-                                <input type="text" className="form-control" onChange={this.onChangeUsername}/>
+                                <input 
+                                    type="text" 
+                                    className="form-control"
+                                    value={this.state.username} 
+                                    onChange={this.onChangeUsername}/>
                             </div>
+                            <button type="submit" className="btn btn-primary">
+                                save
+                            </button>
                         </form>
                     </div>
 
-                    <button type="submit" className="btn btn-primary">
-                        save
-                    </button>
+                    
                 </div>
                 <div className="col-md-8">
                     <ul className="li-group">
                         {
                             this.state.users.map(user => 
-                            (<li className="list-group-item list-group-item-action" key={user._id}>
+                            (<li 
+                                className="list-group-item list-group-item-action" 
+                                key={user._id}
+                                onDoubleClick={() => this.deleteUser(user._id)}>
                                 {user.username}
                                 </li>)
                                 
