@@ -58,9 +58,8 @@ export default class CreateUser extends Component {
                             </button>
                         </form>
                     </div>
-
-                    
                 </div>
+
                 <div className="col-md-8">
                     <ul className="li-group">
                         {
@@ -71,7 +70,6 @@ export default class CreateUser extends Component {
                                 onDoubleClick={() => this.deleteUser(user._id)}>
                                 {user.username}
                                 </li>)
-                                
                             )
                         }
                     </ul>
