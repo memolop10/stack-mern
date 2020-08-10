@@ -45,7 +45,7 @@ export default class CreateNote extends Component {
         }
     
         if(this.state.editing){
-            await axios.put('http://localhost:4000/api/notes/',+ this.state._id, newNote);
+            await axios.put('http://localhost:4000/api/notes/'+ this.state._id, newNote);
         }else{
             await axios.post('http://localhost:4000/api/notes', newNote);
 
